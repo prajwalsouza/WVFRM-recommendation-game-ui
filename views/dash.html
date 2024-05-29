@@ -1,0 +1,67 @@
+<div class="d-flex justify-content-center pl-5 pr-5 pt-5 pb-0">
+    <div class="pl-3 pr-3 pl-sm-5 pr-sm-5 pt-3 pb-0" style="max-width: 600px; max-height: 600px; width: 100%;" ng-include="'/assets/images/logo.html'">
+    </div>
+</div>
+<div class="d-flex justify-content-center pl-5 pr-5 pt-3 pb-0 text-center">
+    <div style="font-family: Raleway; font-size: large; font-weight: bold; color: hsla(0, 0%, 80%, 1);">Waveform Recommendations Gameshow 
+        <div style="font-weight: normal; color: grey; font-size: medium;">UI Generator</div></div>
+</div>
+
+<div class="d-flex justify-content-center pl-5 pr-5 pt-5 pb-0">
+    <div class="p-5" style="max-width: 1000px; max-height: 600px; width: 100%;">
+        <div>
+            <div class="raleway white-text">
+                Round Type
+            </div>
+            <div class="hs-container-outer-ignus ">
+                <div class="d-none d-sm-flex hs-container-left-button-ignus" onclick="ignusTheme.hsMoveLeft('#theRoundsHS', 70)">
+                    <i class="fa fa-angle-left"></i>
+                </div>
+                <div class="d-none d-sm-flex hs-container-right-button-ignus" onclick="ignusTheme.hsMoveRight('#theRoundsHS', 70)">
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div id="theRoundsHS" class="hs-container-inner-ignus">
+                    <div class="hs-container-element-ignus" ng-repeat="round in roundTypes">
+                        <div class="round-selected round p-3">{{round.name}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<script>
+
+    function handleWaves(e) {
+        mouse_position = {
+            x: e.clientX,
+            y: e.clientY
+        }
+
+        waveformAmplitudes = document.getElementsByClassName('waveform-logo-amplitude');
+
+        for (let i = 0; i < waveformAmplitudes.length; i++) {
+            const element = waveformAmplitudes[i];
+            // element.setAttribute('fill', `hsla(0, 0%, ${Math.floor(Math.random() * 100)}%, 1)`)
+            elementID = element.id.split('waveform-logo-amplitude-')[1];
+            spatialFrequency = 0.1;
+            // flow with a hint of red hue, but mostly white
+            element.setAttribute('fill', `hsla(${(Math.sin(spatialFrequency * mouse_position.x + spatialFrequency * mouse_position.y + i) + 1) * 10}, ${(Math.sin(spatialFrequency * mouse_position.x + spatialFrequency * mouse_position.y + i) + 1) * 80}%, ${(Math.sin(spatialFrequency * mouse_position.x + spatialFrequency * mouse_position.y + i) + 1) * 10 + 80}%, 1)`)
+
+            // scale transform height deviation from normal, stretched from the center
+            max_deviation = 0.01;
+            spatialFrequencyForScale = 0.01;
+            element.setAttribute('transform', `scale(1, ${1 + max_deviation * Math.sin(spatialFrequencyForScale * mouse_position.x + spatialFrequencyForScale * mouse_position.y + i)})`)
+            
+        }
+
+
+    }
+    
+    
+
+    window.addEventListener('mousemove', handleWaves)
+</script>

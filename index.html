@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="theMainController"  id="main-controller-html">
+	<head>
+		<title>Waveform Recommendation Game UI Generator</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta charset="UTF-8">
+        <meta name="description" content="A fun project, to generate the UI for the recommendation game, inspired by the UI created by Ellis.  ">
+        <meta name="keywords" content="waveform podcast">
+        <meta name="author" content="Prajwal DSouza">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="icon" href="/assets/Images/icon.png">
+
+        <!-- <link rel="manifest" href="/manifest.json"> -->
+
+		
+		<script type="application/ld+json">
+			{
+			  "@type": "app",
+			  "name": "Waveform Recommendation Game UI Generator",
+			  "author": "Prajwal DSouza",
+			  "description": "A fun project, to generate the UI for the recommendation game, inspired by the UI created by Ellis.  "
+			  }
+		</script>
+
+		<link href="/assets/fonts/Nunito.css" rel="stylesheet">
+		<link href="/assets/fonts/Raleway.css" rel="stylesheet">
+        <link href="/assets/fonts/Source-Sans.css" rel="stylesheet">
+        
+		<!-- Some times used library for icons -->
+		<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <base href="/">
+        <link rel="stylesheet" type="text/css" href="/css/ignus-theme.css">
+        <script src="/js/ignus-theme.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+
+
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.min.js"></script>
+
+
+        
+
+	</head>
+	<body style='margin:0px; display: block;'>
+		<div id="containAll">
+            <div id="main-inner-box" style="min-height: 100vh;">
+
+                <!-- <header style="position: absolute; overflow: hidden; width: 100%; z-index: 2; pointer-events: none;" ng-include="'components/profile.html'">
+                    
+                </header> -->
+
+                <main >
+                    <div id="thePage" ng-view>
+            
+                    </div>
+                    
+                </main>
+                
+            </div>
+        </div>
+
+
+        <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+
+        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>   
+        <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+
+        
+        <script type="module" src="https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js"></script>
+
+        
+        <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+
+
+        
+        <script src="js/main.js"></script>
+        <script src="js/initApp.js"></script>
+        <script src="js/maincontroller.js"></script>
+
+        <!-- <script src="https://cdn.jsdelivr.net/npm/editorjs-text-color-plugin@2.0.4/dist/bundle.js"></script> -->
+
+
+    </body>
+</html>
