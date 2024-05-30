@@ -1,34 +1,101 @@
-<div class="d-flex justify-content-center pl-5 pr-5 pt-5 pb-0">
-    <div class="pl-3 pr-3 pl-sm-5 pr-sm-5 pt-3 pb-0" style="max-width: 600px; max-height: 600px; width: 100%;" ng-include="'/assets/images/logo.html'">
-    </div>
-</div>
-<div class="d-flex justify-content-center pl-5 pr-5 pt-3 pb-0 text-center">
-    <div style="font-family: Raleway; font-size: large; font-weight: bold; color: hsla(0, 0%, 80%, 1);">Waveform Recommendations Gameshow 
-        <div style="font-weight: normal; color: grey; font-size: medium;">UI Generator</div></div>
-</div>
-
-<div class="d-flex justify-content-center pl-5 pr-5 pt-5 pb-0">
-    <div class="p-5" style="max-width: 1000px; max-height: 600px; width: 100%;">
-        <div>
-            <div class="raleway white-text">
-                Round Type
+<div ng-init="view()">
+    <div id="mainDashLogo">
+        <div class="d-flex justify-content-center pl-5 pr-5 pt-5 pb-0" >
+            <div class="pl-3 pr-3 pl-sm-5 pr-sm-5 pt-3 pb-0" style="max-width: 600px; max-height: 600px; width: 100%;" ng-include="'/assets/images/logo.html'">
             </div>
-            <div class="hs-container-outer-ignus ">
-                <div class="d-none d-sm-flex hs-container-left-button-ignus" onclick="ignusTheme.hsMoveLeft('#theRoundsHS', 70)">
-                    <i class="fa fa-angle-left"></i>
+        </div>
+        <div class="d-flex justify-content-center pl-5 pr-5 pt-3 pb-0 text-center">
+            <div style="font-family: Raleway; font-size: large; font-weight: bold; color: hsla(0, 0%, 80%, 1);">Waveform Recommendations Gameshow 
+                <div style="font-weight: normal; color: grey; font-size: medium;">UI Generator</div></div>
+        </div>
+        <div class="d-flex justify-content-center pl-5 pr-5 pt-1 pb-0 text-center">
+            <div style="font-family: Raleway; font-size: small; color: hsla(0, 0%, 40%, 1); max-width: 70%;">
+                Remember the fun, recommendations, Game show on Waveform Podcast. This is a fun project related to that. And an excuse to learn about sending information across tabs using local storage.
+        </div>
+    </div>
+    
+    
+    <div class="d-flex justify-content-center pl-5 pr-5 pt-5 pb-0">
+        <div class="p-5" style="max-width: 1000px; max-height: 600px; width: 100%;">
+            <div>
+                <div class="raleway" style="font-size: small; color: grey; ">
+                    Round Type
                 </div>
-                <div class="d-none d-sm-flex hs-container-right-button-ignus" onclick="ignusTheme.hsMoveRight('#theRoundsHS', 70)">
-                    <i class="fa fa-angle-right"></i>
-                </div>
-                <div id="theRoundsHS" class="hs-container-inner-ignus">
-                    <div class="hs-container-element-ignus" ng-repeat="round in roundTypes">
-                        <div class="round-selected round p-3">{{round.name}}</div>
+                <div class="hs-container-outer-ignus ">
+                    <div class="d-none d-sm-flex hs-container-left-button-ignus" onclick="ignusTheme.hsMoveLeft('#theRoundsHS', 70)" style="background: none;">
+                        <i class="fa fa-angle-left"></i>
+                    </div>
+                    <div class="d-none d-sm-flex hs-container-right-button-ignus" onclick="ignusTheme.hsMoveRight('#theRoundsHS', 70)" style="background: none;">
+                        <i class="fa fa-angle-right"></i>
+                    </div>
+                    <div id="theRoundsHS" class="hs-container-inner-ignus">
+                        <div class="hs-container-element-ignus" ng-repeat="(roundKey, round) in appData.rounds" ng-click="ui.roundUnselectAll(); round.selected = true; appData.editor.editingRound = roundKey; saveAppData();">
+                            <div class="{{round.selected ? 'round-selected':''}} round pl-4 pr-4 pt-2 pb-2 ml-2 mt-2"><div class="round-text">{{round.name}}</div></div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="pt-4">
+                <div style="font-size: small; color: hsla(0, 0%, 40%, 1)">Playing/Rendering locally in this browser at</div>
+                <div style="font-family: Nunito;" class="click-link" ng-click="visitWithTarget('/#!/ui/' + appData.editor.editingRound)">{{baseURL}}#!/ui/{{appData.editor.editingRound}}</div>
+            </div>
+
+            <div class="pt-5" ng-if="appData.editor.editingRound == 'easy-medium-hard'">
+                <div class="raleway" style="font-size: 100px; font-weight: bold; color: hsla(0, 40%, 50%, 1)">Hard
+                    <!-- pencil or close -->
+                    <!-- fa fa-pencil and fa fa-close -->
+                    <span class="fa fa-{{appData.editor.editingOptions.randomOptionBox.open ? 'close':'pencil'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor.editingOptions.randomOptionBox.open = !appData.editor.editingOptions.randomOptionBox.open"></span>
+                </div>
+
+                <div class="edit-options p-2 mb-3" ng-show="appData.editor.editingOptions.randomOptionBox.open">
+                    <div class="hs-container-outer-ignus ">
+                        <div class="d-none d-sm-flex hs-container-left-button-ignus" onclick="ignusTheme.hsMoveLeft('#OptionsHS', 70)" style="background: none;">
+                            <i class="fa fa-angle-left"></i>
+                        </div>
+                        <div class="d-none d-sm-flex hs-container-right-button-ignus" onclick="ignusTheme.hsMoveRight('#OptionsHS', 70)" style="background: none;">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                        <div id="OptionsHS" class="hs-container-inner-ignus">
+                            <div class="hs-container-element-ignus editProp" ng-click="appData.editor.editingOptions.randomOptionBox.props.visible = !appData.editor.editingOptions.randomOptionBox.props.visible">
+                                <div class="p-3 m-2">
+                                    <i class="fa fa-{{appData.editor.editingOptions.randomOptionBox.props.visible ? 'eye':'eye-slash'}} mr-2"></i><span>{{appData.editor.editingOptions.randomOptionBox.props.visible ? 'Visible':'Invisible'}}</span>
+                                </div>
+                            </div>
+                            <div class="hs-container-element-ignus editProp" ng-click="appData.editor.editingOptions.randomOptionBox.props.visible = !appData.editor.editingOptions.randomOptionBox.props.visible">
+                                <div class="p-3 m-2">
+                                    <i class="fa fa-{{appData.editor.editingOptions.randomOptionBox.props.visible ? 'eye':'eye-slash'}} mr-2"></i><span>{{appData.editor.editingOptions.randomOptionBox.props.visible ? 'Visible':'Invisible'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="raleway" style="font-weight: bold;">RANDOM OPTION<span class="fa fa-pencil position-absolute edit-option ml-3 mr-3"></span></div>
+
+                <div class="raleway pt-5" style="font-size: 100px; font-weight: bold; color: hsla(0, 0%, 100%, 1);">45<span style="color: hsla(0, 0%, 80%, 1);">.1<span class="pl-3" style="color: hsla(0, 0%, 60%, 1); font-size: 100px;">s</span></span></div>
+                <div class="d-inline-block pr-5 pt-5 pb-0" >
+                    <div class="pr-3 pr-sm-5 pt-3 pb-0" style="max-width: 200px; max-height: 200px; width: 30%; min-width: 200px; " ng-include="'/assets/images/logo.html'">
+                    </div>
+                    <div style="width: 60%;" class="pt-3">
+                        <div class="raleway" style="font-size: 30px; font-weight: bold; color: hsla(0, 0%, 90%, 1)">Marques</div>
+                        <div class="raleway" style="font-weight: bold;">Participant</div>
+                    </div>
+                
+                </div>
+                <div class="position-relative pt-5 pr-5">
+                    <div class="float-right">
+                        <!-- play button from font awesome with rounded corners -->
+                        <div class="d-flex justify-content-center align-items-center pause-play-ui-button" ><i class="fa fa-play"></i></div>
+                    </div>
+                </div>
+                
+            </div>
+
+            
         </div>
-        
     </div>
+    
 </div>
 
 
@@ -47,9 +114,13 @@
             const element = waveformAmplitudes[i];
             // element.setAttribute('fill', `hsla(0, 0%, ${Math.floor(Math.random() * 100)}%, 1)`)
             elementID = element.id.split('waveform-logo-amplitude-')[1];
-            spatialFrequency = 0.1;
+            spatialFrequency = 0.01; // how spread out the waves are sin(kx - wt), this is k
+            timeFrequency = 0.1; // how much the waves are affected by the mouse, this is w
+
             // flow with a hint of red hue, but mostly white
-            element.setAttribute('fill', `hsla(${(Math.sin(spatialFrequency * mouse_position.x + spatialFrequency * mouse_position.y + i) + 1) * 10}, ${(Math.sin(spatialFrequency * mouse_position.x + spatialFrequency * mouse_position.y + i) + 1) * 80}%, ${(Math.sin(spatialFrequency * mouse_position.x + spatialFrequency * mouse_position.y + i) + 1) * 10 + 80}%, 1)`)
+            // sin (kx - wt) + 1
+
+            element.setAttribute('fill', `hsla(0, 0%, ${Math.floor(80 + 20 * Math.sin(spatialFrequency * mouse_position.x + spatialFrequency * mouse_position.y + timeFrequency * i))}%, 1)`)
 
             // scale transform height deviation from normal, stretched from the center
             max_deviation = 0.01;
@@ -61,7 +132,6 @@
 
     }
     
-    
+    document.getElementById('mainDashLogo').addEventListener('mousemove', handleWaves)
 
-    window.addEventListener('mousemove', handleWaves)
 </script>

@@ -14,6 +14,9 @@ app.config(['$routeProvider', '$sceProvider', '$locationProvider', function ($ro
                 if (urlParams.param1 == 'app') {
                     return 'views/dash.html';
                 }
+                if (urlParams.param1 == 'ui') {
+                    return 'views/render.html';
+                }
                 else {
                     return 'views/dash.html';
                 }

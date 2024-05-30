@@ -26,14 +26,14 @@
 }
 
 body {
-    background-color: white;
+    background: hsla(0, 0%, 4%, 1);
 }
 
 #main-inner-box {
     /* border: 1px solid hsl(0,0%,2%);  */
     background: hsla(0, 0%, 4%, 1);
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
     background-size: cover;
 }
 
@@ -45,10 +45,78 @@ body {
     color: white;
 }
 
+.pause-play-ui-button {
+    color: hsla(0, 30%, 50%, 1); min-width: 40px; min-height: 40px; font-size: 20px; cursor: pointer;
+    transition: 0.4s;
+}
+
+.pause-play-ui-button:hover {
+    color: hsla(0, 30%, 100%, 1); min-width: 40px; min-height: 40px; font-size: 20px; cursor: pointer;
+}
+
+.edit-option {
+    color: hsla(0, 0%, 30%, 1);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.edit-option:hover {
+    color: hsla(0, 0%, 80%, 1);
+}
+
+.edit-options {
+    background: hsla(0, 0%, 1%, 1);
+    border-radius: 10px;
+}
+
+.click-link {
+    color: hsla(0, 0%, 60%, 1);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.click-link:hover {
+    color: hsla(0, 60%, 90%, 1)
+}
+
+.editProp {
+    color: hsla(0, 0%, 60%, 1);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.editProp:hover {
+    color: hsla(0, 60%, 90%, 1)
+}
+
+
+/* parallelogram shaped */
+
 .round {
     font-family: Nunito;
-    color: grey;
+    color: hsla(0, 10%, 90%, 1);
     cursor: pointer;
+    /* parallelogram */
+    transform: skew(-10deg);
+    transition: 0.5s;
+    border: 1px solid hsla(0, 0%, 50%, 0);
+}
+
+.round-selected {
+    background: hsla(0, 40%, 70%, 0);
+    border: 1px solid hsla(0, 0%, 20%, 1);
+    color: hsla(0, 40%, 60%, 1);
+    cursor: auto;
+}
+
+.round-selected:hover {
+    background: hsla(0, 40%, 0%, 1);
+    border: 1px solid hsla(0, 0%, 20%, 1);
+    color: hsla(0, 40%, 60%, 1);
+}
+
+.round-text {
+    transform:  skew(10deg);
 }
 
 .round:hover {

@@ -408,6 +408,7 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
     $scope.ui.dimensions.widthType = (window.innerWidth < 768) ? 'mobile' : 'desktop'
 
     $scope.ui.dimensions.check = function() {
+        $scope.ui.dimensions = {}
         $scope.ui.dimensions.widthType = (window.innerWidth < 768) ? 'mobile' : 'desktop'
 
         
@@ -424,26 +425,147 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
 
     $scope.urlParameters = {}
 
+    $scope.defaultAppData =  {
+        'participants': {
+            '0': {
+                'name': "Marques",
+                'color': 'green',
+            },
+            '1': {
+                'name': "Andrew",
+                'color': 'green',
+            }
+        },
+        'editor':{
+            'editingRound': 'easy-medium-hard',
+            'editingOptions': {
+                'randomOptionBox': {
+                    'open': false,
+                    'props': {
+                        'visible': {
+                            'value': true,
+                            'open': true,
+                        },
+                        'color': {
+                            'hue': 0,
+                            'saturation': 0,
+                            'lightness': 0,
+                            'alpha': 1,
+                        },
+                        'font': {
+                            'size': 20,
+                            'weight': 'normal',
+                        },
+                    }
+                }
+            }
+        },
+        'rounds': {
+            'easy-medium-hard': {
+                "name": "Easy, Medium and Hard ",
+                'selected': true,
+                'url': 'easy-medium-hard',
+                'options': {
+                    '0': {
+                        'name': "Easy",
+                        'color': 'green',
+                    },
+                    '1': {
+                        'name': "Medium",
+                        'color': 'yellow',
+                    },
+                    '2': {
+                        'name': "Hard",
+                        'color': 'red',
+                    },
+                },
+                'startedAt': Date.now(),
+                'parameters': {
+                    'current_participant': "Marques",
+                    'random-option': "0",
+                },
+            },
+            'something-that': {
+                "name": "Something that..",
+                'selected': false,
+                'url': 'something-that',
+                'options': {
+                    '0': {
+                        'name': "Easy",
+                        'color': 'green',
+                    },
+                    '1': {
+                        'name': "Medium",
+                        'color': 'yellow',
+                    },
+                    '2': {
+                        'name': "Hard",
+                        'color': 'red',
+                    },
+                },
+                'startedAt': Date.now(),
+                'parameters': {
+                    'current_participant': "Marques",
+                    'random-option': "0",
+                },
+            }
 
-
+        }
+    }
 
     $scope.view = function() {
         $scope.urlParameters[1] = $routeParams.param1
         $scope.urlParameters[2] = $routeParams.param2
         $scope.urlParameters[3] = $routeParams.param3
 
+        // base url
+        $scope.baseURL = $location.absUrl().split('#')[0]
+
         
         // themeColor = $scope.themeColors[Math.floor(Math.random()*$scope.themeColors.length)]
         // changeThemeColor(themeColor)
+
+        
+        $scope.loadAppData();
+
+        if ($scope.appData == null) {
+            $scope.appData = $scope.defaultAppData
+            localStorage.setItem('waveformUIData', JSON.stringify($scope.appData))
+        }
 
         $scope.loadApp();
 
         if ($routeParams.param1 === undefined && $routeParams.param2 === undefined) {
             $scope.views.loadDashboard()
         }
+
+        if ($routeParams.param1 === 'ui' && $routeParams.param2 !== undefined) {
+            $interval($scope.checkToRenderAppData, 100)
+            $scope.views.loadUI()
+
+        }
         
 
 
+    }
+
+    $scope.saveAppData = function() {
+        localStorage.setItem('waveformUIData', JSON.stringify($scope.appData))
+    }
+
+    $scope.resetAppData = function() {
+        localStorage.setItem('waveformUIData', JSON.stringify($scope.defaultAppData))
+        $scope.appData = $scope.defaultAppData
+    }
+
+    $scope.loadAppData = function() {
+        $scope.appData = JSON.parse(localStorage.getItem('waveformUIData'))
+    }
+
+    $scope.checkToRenderAppData = function() {
+        if ($scope.urlParameters[1] == 'ui' && $scope.urlParameters[2] !== undefined) {
+            $scope.loadAppData();
+        }
     }
 
 
@@ -466,20 +588,22 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
     }
 
 
-    $scope.roundTypes = {
-        '0': {
-            "name": "Easy, Medium and Hard ",
-            'selected': true
-        },
-        '1': {
-            "name": "Something that.. ",
-            'selected': false
-        },
+
+    $scope.ui = {
+        roundUnselectAll: function() {
+            for (var key in $scope.appData.rounds) {
+                $scope.appData.rounds[key].selected = false
+            }
+        }
     }
 
 
     $scope.views = {
         loadDashboard: function() {
+        },
+        loadUI: function() {
+            
+
         },
     }
 
