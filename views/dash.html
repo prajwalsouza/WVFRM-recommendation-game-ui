@@ -18,7 +18,7 @@
     <div class="d-flex justify-content-center pl-5 pr-5 pt-5 pb-0">
         <div class="p-5" style="max-width: 1000px; max-height: 600px; width: 100%;">
             <div>
-                <div class="raleway" style="font-size: small; color: grey; ">
+                <div class="raleway" style="font-size: large; font-weight: bold; color: grey; ">
                     Round Type
                 </div>
                 <div class="hs-container-outer-ignus ">
@@ -37,58 +37,59 @@
             </div>
             <div class="pt-4">
                 <div style="font-size: small; color: hsla(0, 0%, 40%, 1)">Playing/Rendering locally in this browser at</div>
-                <div style="font-family: Nunito;" class="click-link" ng-click="visitWithTarget('/#!/ui/' + appData.editor.editingRound)">{{baseURL}}#!/ui/{{appData.editor.editingRound}}</div>
+                <div style="font-family: Nunito;" class="click-link" ng-click="visitWithTarget('/#!/ui/' + appData.editor.editingRound, '_blank')">{{baseURL}}#!/ui/{{appData.editor.editingRound}}</div>
             </div>
 
-            <div class="pt-5" ng-if="appData.editor.editingRound == 'easy-medium-hard'">
-                <div class="raleway" style="font-size: 100px; font-weight: bold; color: hsla(0, 40%, 50%, 1)">Hard
-                    <!-- pencil or close -->
-                    <!-- fa fa-pencil and fa fa-close -->
-                    <span class="fa fa-{{appData.editor.editingOptions.randomOptionBox.open ? 'close':'pencil'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor.editingOptions.randomOptionBox.open = !appData.editor.editingOptions.randomOptionBox.open"></span>
-                </div>
 
-                <div class="edit-options p-2 mb-3" ng-show="appData.editor.editingOptions.randomOptionBox.open">
-                    <div class="hs-container-outer-ignus ">
-                        <div class="d-none d-sm-flex hs-container-left-button-ignus" onclick="ignusTheme.hsMoveLeft('#OptionsHS', 70)" style="background: none;">
-                            <i class="fa fa-angle-left"></i>
+
+            <div class="pt-5 pb-5" ng-if="appData.editor.editingRound == 'easy-medium-hard'">
+                <div class="pt-4 pb-5">
+                    <div class="raleway" style="font-size: large; font-weight: bold; color: hsla(0, 0%, 60%, 1);">Configurations 
+                        <i class="fa fa-refresh ml-3 click-link" ng-click="resetAppData();"></i>
+                    </div>
+
+                    <div>
+                        <span style="color: hsla(0, 0%, 50%, 1);">Maximum Time (s)</span>
+                        <input type="number" class="input-underlined-ignus pr-0" style="width: 100px; background: none; color: white;" placeholder="23" ng-model="appData.rounds[appData.editor.editingRound].maximumTime" step="0.01" ng-change="saveAppData();">
+                    </div>
+
+                </div>
+                <div class="mt-5">
+                    <div class="raleway pb-3" style="font-size: large; font-weight: bold; color: grey; ">
+                        Sample Preview and Element Visibility
+                    </div>
+                    <div id="sample-preview" class="pb-5 mb-5">
+                        <div class="raleway" style="font-size: 100px; font-weight: bold; color: hsla(0, 40%, 50%, 1); {{appData.editor.editingOptions.randomOptionBox.visible ? '':'filter: saturate(0) brightness(3);'}}">Hard
+                            <span class="fa fa-{{appData.editor.editingOptions.randomOptionBox.visible ? 'eye':'eye-slash'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor.editingOptions.randomOptionBox.visible = !appData.editor.editingOptions.randomOptionBox.visible; saveAppData();"></span>
                         </div>
-                        <div class="d-none d-sm-flex hs-container-right-button-ignus" onclick="ignusTheme.hsMoveRight('#OptionsHS', 70)" style="background: none;">
-                            <i class="fa fa-angle-right"></i>
-                        </div>
-                        <div id="OptionsHS" class="hs-container-inner-ignus">
-                            <div class="hs-container-element-ignus editProp" ng-click="appData.editor.editingOptions.randomOptionBox.props.visible = !appData.editor.editingOptions.randomOptionBox.props.visible">
-                                <div class="p-3 m-2">
-                                    <i class="fa fa-{{appData.editor.editingOptions.randomOptionBox.props.visible ? 'eye':'eye-slash'}} mr-2"></i><span>{{appData.editor.editingOptions.randomOptionBox.props.visible ? 'Visible':'Invisible'}}</span>
-                                </div>
+        
+        
+                        <div class="raleway" style="font-weight: bold;  {{appData.editor.editingOptions.randomOptionText.visible ? '':'filter: saturate(0) brightness(3);'}}">RANDOM OPTION<span class="fa fa-{{appData.editor.editingOptions.randomOptionText.visible ? 'eye':'eye-slash'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor.editingOptions.randomOptionText.visible = !appData.editor.editingOptions.randomOptionText.visible; saveAppData();"></span></div>
+        
+                        <div class="raleway pt-5" style="font-size: 100px; font-weight: bold; color: hsla(0, 0%, 100%, 1);">45<span style="color: hsla(0, 0%, 80%, 1);">.1<span class="fa fa-{{appData.editor.editingOptions.seconds.visible ? 'eye':'eye-slash'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor.editingOptions.seconds.visible = !appData.editor.editingOptions.seconds.visible; saveAppData();"></span><span class="pl-3" style="color: hsla(0, 0%, 60%, 1); font-size: 100px;">s<span class="fa fa-{{appData.editor.editingOptions.secondsUnit.visible ? 'eye':'eye-slash'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor.editingOptions.secondsUnit.visible = !appData.editor.editingOptions.secondsUnit.visible; saveAppData();"></span></span></span></div>
+                        <div class="d-inline-block pr-5 pt-5 pb-0" >
+                            
+                            <span class="fa fa-{{appData.editor.editingOptions.waveformLogo.visible ? 'eye':'eye-slash'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor.editingOptions.waveformLogo.visible = !appData.editor.editingOptions.waveformLogo.visible; saveAppData();"></span>
+                            <div class="pr-3 pr-sm-5 pt-3 pb-0" style="max-width: 200px; max-height: 200px; width: 30%; min-width: 200px; " ng-include="'/assets/images/logo.html'"></div>
+
+                            <div class="raleway" style="font-size: 30px; font-weight: bold; color: hsla(0, 0%, 90%, 1)">Marques <span class="fa fa-{{appData.editor.editingOptions.participantName.visible ? 'eye':'eye-slash'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor.editingOptions.participantName.visible = !appData.editor.editingOptions.participantName.visible; saveAppData();"></span>
                             </div>
-                            <div class="hs-container-element-ignus editProp" ng-click="appData.editor.editingOptions.randomOptionBox.props.visible = !appData.editor.editingOptions.randomOptionBox.props.visible">
-                                <div class="p-3 m-2">
-                                    <i class="fa fa-{{appData.editor.editingOptions.randomOptionBox.props.visible ? 'eye':'eye-slash'}} mr-2"></i><span>{{appData.editor.editingOptions.randomOptionBox.props.visible ? 'Visible':'Invisible'}}</span>
-                                </div>
+
+                            <div class="raleway" style="font-weight: bold;">Participant
+                                <span class="fa fa-{{appData.editor.editingOptions.participantText.visible ? 'eye':'eye-slash'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor.editingOptions.participantText.visible = !appData.editor.editingOptions.participantText.visible; saveAppData();"></span>
+                            </div>
+                            
+                        
+                        </div>
+                        <div class="position-relative pt-5 pr-5">
+                            <div class="float-right">
+                                <!-- play button from font awesome with rounded corners -->
+                                <!-- <div class="d-flex justify-content-center align-items-center pause-play-ui-button" ><i class="fa fa-play"></i></div> -->
                             </div>
                         </div>
                     </div>
                 </div>
                 
-
-                <div class="raleway" style="font-weight: bold;">RANDOM OPTION<span class="fa fa-pencil position-absolute edit-option ml-3 mr-3"></span></div>
-
-                <div class="raleway pt-5" style="font-size: 100px; font-weight: bold; color: hsla(0, 0%, 100%, 1);">45<span style="color: hsla(0, 0%, 80%, 1);">.1<span class="pl-3" style="color: hsla(0, 0%, 60%, 1); font-size: 100px;">s</span></span></div>
-                <div class="d-inline-block pr-5 pt-5 pb-0" >
-                    <div class="pr-3 pr-sm-5 pt-3 pb-0" style="max-width: 200px; max-height: 200px; width: 30%; min-width: 200px; " ng-include="'/assets/images/logo.html'">
-                    </div>
-                    <div style="width: 60%;" class="pt-3">
-                        <div class="raleway" style="font-size: 30px; font-weight: bold; color: hsla(0, 0%, 90%, 1)">Marques</div>
-                        <div class="raleway" style="font-weight: bold;">Participant</div>
-                    </div>
-                
-                </div>
-                <div class="position-relative pt-5 pr-5">
-                    <div class="float-right">
-                        <!-- play button from font awesome with rounded corners -->
-                        <div class="d-flex justify-content-center align-items-center pause-play-ui-button" ><i class="fa fa-play"></i></div>
-                    </div>
-                </div>
                 
             </div>
 

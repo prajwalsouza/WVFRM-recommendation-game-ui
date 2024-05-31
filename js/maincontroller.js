@@ -440,29 +440,32 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
             'editingRound': 'easy-medium-hard',
             'editingOptions': {
                 'randomOptionBox': {
-                    'open': false,
-                    'props': {
-                        'visible': {
-                            'value': true,
-                            'open': true,
-                        },
-                        'color': {
-                            'hue': 0,
-                            'saturation': 0,
-                            'lightness': 0,
-                            'alpha': 1,
-                        },
-                        'font': {
-                            'size': 20,
-                            'weight': 'normal',
-                        },
-                    }
-                }
+                    'visible': true
+                },
+                'randomOptionText': {
+                    'visible': true
+                },
+                'seconds': {
+                    'visible': true
+                },
+                'secondsUnit': {
+                    'visible': true
+                },
+                'participantName': {
+                    'visible': true
+                },
+                'participantText': {
+                    'visible': true
+                },
+                'waveformLogo': {
+                    'visible': true
+                },
             }
         },
         'rounds': {
             'easy-medium-hard': {
                 "name": "Easy, Medium and Hard ",
+                "maximumTime": 45,
                 'selected': true,
                 'url': 'easy-medium-hard',
                 'options': {
@@ -550,10 +553,15 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
     }
 
     $scope.saveAppData = function() {
+        // delete old
+        localStorage.removeItem('waveformUIData');
         localStorage.setItem('waveformUIData', JSON.stringify($scope.appData))
     }
 
     $scope.resetAppData = function() {
+        // delete old
+        localStorage.removeItem('waveformUIData');
+
         localStorage.setItem('waveformUIData', JSON.stringify($scope.defaultAppData))
         $scope.appData = $scope.defaultAppData
     }
@@ -562,9 +570,12 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
         $scope.appData = JSON.parse(localStorage.getItem('waveformUIData'))
     }
 
+
+
     $scope.checkToRenderAppData = function() {
         if ($scope.urlParameters[1] == 'ui' && $scope.urlParameters[2] !== undefined) {
             $scope.loadAppData();
+            console.log($scope.appData.editor.editingOptions.randomOptionText.visible)
         }
     }
 

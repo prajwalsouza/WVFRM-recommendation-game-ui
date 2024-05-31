@@ -16,6 +16,9 @@ function decodeFirebaseKey(encodedKey) {
         .replace(/_reviews_hashTag__/g, '#');
 }
 
+ignusTheme.baseHue = 0;
+ignusTheme.baseLightness = 80;
+ignusTheme.setUp();
 
 // if ('serviceWorker' in navigator) {
 //     window.addEventListener('load', function() {
