@@ -382,6 +382,10 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
         window.open(url,target)
     }
 
+    $scope.deleteEntry = function(object, key) {
+        delete object[key]
+    }
+
     $scope.visitInternally = function(url) {
         $location.path(url);
     }
@@ -420,8 +424,25 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
     
     $scope.appName = "Waveform Recommendations Game UI";
 
+    
 
+    $scope.addEntry = function(object, key, value) {
+        object[key] = value
+    }
 
+    $scope.participantEntry = '';
+
+    $scope.addParticipant = function($event) {
+        if ($event.keyCode == 13) {
+
+            $scope.addEntry($scope.appData.participants, $scope.appData.editor.addingID, {'name': $scope.appData.editor.addingParticipantName, 'color': 'green'}); 
+            $scope.appData.editor.addingID += 1;
+
+            $scope.appData.editor.addingParticipantName = '';
+
+            $scope.saveAppData();
+        }
+    }
 
     $scope.urlParameters = {}
 
@@ -437,6 +458,8 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
             }
         },
         'editor':{
+            'addingID': 10,
+            'addingParticipantName': '',
             'editingRound': 'easy-medium-hard',
             'editingOptions': {
                 'randomOptionBox': {
@@ -531,6 +554,8 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
         
         $scope.loadAppData();
 
+        
+
         if ($scope.appData == null) {
             $scope.appData = $scope.defaultAppData
             localStorage.setItem('waveformUIData', JSON.stringify($scope.appData))
@@ -540,6 +565,7 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
 
         if ($routeParams.param1 === undefined && $routeParams.param2 === undefined) {
             $scope.views.loadDashboard()
+            $scope.appData.editor.addingParticipantName = '';
         }
 
         if ($routeParams.param1 === 'ui' && $routeParams.param2 !== undefined) {

@@ -56,10 +56,8 @@
                 </div>
                 <div class="mt-2" style="color: hsla(0, 0%, 60%, 1)">
                     <div class="pt-3 pb-1 pr-2" style="font-size: small; color: hsla(0, 0%, 40%, 1);">Current Participant</div>
-                    <select class="input-underlined-ignus pr-0" style="width: 200px; background: none; color: white;">
-                        <option style="background-color: black;">Marques</option>
-                        <option style="background-color: black;">Andrew</option>
-                        <option style="background-color: black;">Random</option>
+                    <select class="input-underlined-ignus pr-0" style="width: 200px; background: none; color: white;" ng-model="appData.rounds[appData.editor.editingRound].parameters.current_participant" ng-change="saveAppData();">
+                        <option style="background-color: black;" ng-repeat="(participantKey, participant) in appData.participants" value="{{participant.name}}">{{participant.name}}</option>
                     </select>
                 </div>
             </div>
@@ -97,7 +95,7 @@
                                                 <i class="fa fa-plus mr-2" style="font-size: smaller; transform: translateY(-2px);"></i>
                                             </div>
                                             <div>
-                                                <input type="text" class="input-underlined-ignus m-0 p-0" style="width: 100px; background: none; border: 0px solid black; color: inherit; " placeholder="Add">
+                                                <input type="text" class="input-underlined-ignus m-0 p-0" style="width: 100px; background: none; border: 0px solid black; color: inherit; " placeholder="Add" ng-keypress="addParticipant($event)" ng-model="appData.editor.addingParticipantName">
                                             </div>
                                             
                                         </div>
@@ -110,7 +108,7 @@
                                                 <input type="text" class="input-underlined-ignus m-0 p-0" style="width: 100px; background: none; border: 0px solid black; color: inherit;" placeholder="Marques" ng-model="appData.participants[participantKey].name" ng-change="saveAppData();">
                                             </div>
                                             <div>
-                                                <i class="fa fa-trash ml-4" style="font-size: x-small; transform: translateY(-2px);"></i>
+                                                <i class="fa fa-trash ml-4" style="font-size: x-small; transform: translateY(-2px);" ng-click="deleteEntry(appData.participants, participantKey); saveAppData();"></i>
                                             </div>
                                         </div>
                                     </div>
