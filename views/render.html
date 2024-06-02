@@ -8,12 +8,38 @@
             <div class="raleway" style="font-weight: bold; transform: translateY(-20px)" ng-show="appData.editor.editingOptions.randomOptionText.visible">RANDOM OPTION</div>
 
             
-            <div class="raleway pt-5" style="font-size: 100px; font-weight: bold; color: hsla(0, 0%, 100%, 1);" ng-show="appData.editor.editingOptions.seconds.visible">45<span style="color: hsla(0, 0%, 80%, 1);">.1<span class="pl-3" style="color: hsla(0, 0%, 60%, 1); font-size: 100px;" ng-show="appData.editor.editingOptions.secondsUnit.visible">s</span></span></div>
+            <div class="raleway pt-5" style="font-size: 100px; font-weight: bold; color: hsla(0, 0%, 100%, 1);" ng-show="appData.editor.editingOptions.seconds.visible">
+
+                <div ng-show="appData.round[urlParameters[2]].started && appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.round[urlParameters[2]].startedTime)/1000) > 0">
+                    <span>
+                        {{appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.round[urlParameters[2]].startedTime)/1000) | number:1}}
+                    </span>
+                    <span style="color: hsla(0, 0%, 80%, 1);">
+                        <!-- .{{((appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.round[urlParameters[2]].startedTime)/1000)) * 10) % 10 | number:0}} -->
+                        <span class="pl-3" style="color: hsla(0, 0%, 60%, 1); font-size: 100px;" ng-show="appData.editor.editingOptions.secondsUnit.visible">s</span>
+                    </span> 
+                </div>
+
+                <div ng-hide="appData.round[urlParameters[2]].started && appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.round[urlParameters[2]].startedTime)/1000) > 0">
+                    <span ng-hide="appData.round[urlParameters[2]].started">
+                        {{appData.rounds[urlParameters[2]].maximumTime}}
+                    </span>
+                    <span ng-show="appData.round[urlParameters[2]].started">
+                        0.0
+                    </span>
+                    <span style="color: hsla(0, 0%, 80%, 1);"><span class="pl-3" style="color: hsla(0, 0%, 60%, 1); font-size: 100px;" ng-show="appData.editor.editingOptions.secondsUnit.visible">s</span></span> 
+                </div>
+
+                
+                
+                
+
+            </div>
             <div class="d-inline-block pr-5 pt-5 pb-0" >
                 <div class="pr-3 pr-sm-5 pt-3 pb-0" style="max-width: 200px; max-height: 200px; width: 30%; min-width: 200px; " ng-include="'/assets/images/logo.html'" ng-show="appData.editor.editingOptions.waveformLogo.visible">
                 </div>
                 <div style="width: 60%;" class="pt-3">
-                    <div class="raleway" style="font-size: 30px; font-weight: bold; color: hsla(0, 0%, 90%, 1)" ng-show="appData.editor.editingOptions.participantName.visible">{{appData.rounds[appData.editor.editingRound].parameters.current_participant}}</div>
+                    <div class="raleway" style="font-size: 30px; font-weight: bold; color: hsla(0, 0%, 90%, 1)" ng-show="appData.editor.editingOptions.participantName.visible">{{appData.participants[appData.rounds[urlParameters[2]].parameters['current_participant_key']].name}}</div>
                     <div class="raleway" style="font-weight: bold;" ng-show="appData.editor.editingOptions.participantText.visible">Participant</div>
                 </div>
             

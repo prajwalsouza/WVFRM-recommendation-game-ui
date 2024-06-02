@@ -180,7 +180,7 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
         $scope.currentTime = $scope.localTime - $scope.localServerTimeDifference
     }
 
-    $interval($scope.findCurrentTime, 500)
+    $interval($scope.findCurrentTime, 200)
 
     $scope.msToString = function(ms) {
         seconds = ms/1000
@@ -444,6 +444,28 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
         }
     }
 
+    $scope.setNextParticipant = function() {
+        if ($scope.appData.round[$scope.appData.editor.editingRound].started == false) {
+            keys = Object.keys($scope.appData.participants)
+            currentIndex = keys.indexOf($scope.appData.rounds[$scope.appData.editor.editingRound].parameters['current_participant_key'])
+            nextIndex = (currentIndex + 1) % keys.length
+            $scope.appData.rounds[$scope.appData.editor.editingRound].parameters['current_participant_key'] = keys[nextIndex]
+            $scope.saveAppData();
+            
+        }
+    }
+
+    $scope.addOption = function($event) {
+        if ($event.keyCode == 13) {
+            $scope.addEntry($scope.appData.rounds[$scope.appData.editor.editingRound].options, $scope.appData.editor.addingID, {'name': $scope.appData.editor.addingOptionName, 'color': 'green'});
+            $scope.appData.editor.addingID += 1;
+
+            $scope.appData.editor.addingOptionName = '';
+
+            $scope.saveAppData();
+        }
+    }
+
 
     $scope.chooseRandomOptionForRound = function() {
         keysPossible = Object.keys($scope.appData.rounds[$scope.appData.editor.editingRound].options)
@@ -489,6 +511,7 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
         'editor':{
             'addingID': 10,
             'addingParticipantName': '',
+            'addingOptionName': '',
             'editingRound': 'easy-medium-hard',
             'editingOptions': {
                 'randomOptionBox': {
@@ -518,6 +541,9 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
             'easy-medium-hard': {
                 "name": "Easy, Medium and Hard ",
                 "maximumTime": 45,
+                "wheelSpinningTime": 5,
+                'started': false,
+                'startedAt': Date.now(),
                 'selected': true,
                 'url': 'easy-medium-hard',
                 'options': {
@@ -536,7 +562,7 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
                 },
                 'startedAt': Date.now(),
                 'parameters': {
-                    'current_participant': "Marques",
+                    'current_participant_key': '0',
                     'random_option': "0",
                     'nature_of_randomness': {
                         'choose_atleast_once': true,
