@@ -2,7 +2,9 @@
     <div class="p-5">
         <div class="pl-5" ng-if="urlParameters[2] == 'easy-medium-hard'">
 
-            <div class="raleway" style="font-size: 100px; font-weight: bold; color: hsla(0, 40%, 50%, 1)" ng-show="appData.editor.editingOptions.randomOptionBox.visible">Hard</div>
+            <div class="raleway" style="font-size: 100px; font-weight: bold; color: hsla(0, 40%, 50%, 1)" ng-show="appData.editor.editingOptions.randomOptionBox.visible">
+                {{appData.rounds[urlParameters[2]].options[appData.rounds[urlParameters[2]].parameters.random_option].name}}
+            </div>
             <div class="raleway" style="font-weight: bold; transform: translateY(-20px)" ng-show="appData.editor.editingOptions.randomOptionText.visible">RANDOM OPTION</div>
 
             
@@ -11,7 +13,7 @@
                 <div class="pr-3 pr-sm-5 pt-3 pb-0" style="max-width: 200px; max-height: 200px; width: 30%; min-width: 200px; " ng-include="'/assets/images/logo.html'" ng-show="appData.editor.editingOptions.waveformLogo.visible">
                 </div>
                 <div style="width: 60%;" class="pt-3">
-                    <div class="raleway" style="font-size: 30px; font-weight: bold; color: hsla(0, 0%, 90%, 1)" ng-show="appData.editor.editingOptions.participantName.visible">{{appData.rounds[urlParameters[2]].parameters.current_participant}}</div>
+                    <div class="raleway" style="font-size: 30px; font-weight: bold; color: hsla(0, 0%, 90%, 1)" ng-show="appData.editor.editingOptions.participantName.visible">{{appData.rounds[appData.editor.editingRound].parameters.current_participant}}</div>
                     <div class="raleway" style="font-weight: bold;" ng-show="appData.editor.editingOptions.participantText.visible">Participant</div>
                 </div>
             

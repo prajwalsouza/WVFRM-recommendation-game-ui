@@ -10,7 +10,7 @@
         </div>
         <div class="d-flex justify-content-center pl-5 pr-5 pt-1 pb-0 text-center">
             <div style="font-family: Raleway; font-size: small; color: hsla(0, 0%, 40%, 1); max-width: 70%;">
-                Based on the fun recommendations.. game show on Waveform Podcast. This is a fun project related to that. And an excuse to learn about sending information across tabs using local storage. 
+                Based on the.. uh "gamified" recommendations game show on Waveform Podcast. This is a fun project related to that. And an excuse to learn about sending information across tabs using local storage. 
                 <div class="click-link" style="font-family: Nunito;" ng-click="visitWithTarget('https://github.com/prajwalsouza/WVFRM-recommendation-game-ui', '_blank')">
                     <i class="fa fa-github mr-2"></i>prajwalsouza/WVFRM-recommendation-game-ui
                 </div>
@@ -51,7 +51,10 @@
                     <span class="pt-2 pb-2 pr-4 pl-4 pause-play-button"><i class="fa fa-play pr-3"></i>Play</span>
                 </div>
                 <div class="mt-4" style="color: hsla(0, 0%, 60%, 1)">
-                    <span class="pt-2 pb-2 pr-4 pl-4 mr-4"><i class="fa fa-refresh pr-3"></i>Hard</span>
+                    <span class="pt-2 pb-2 pr-4 pl-4 mr-4">
+                        <i class="fa fa-refresh pr-3 click-link" ng-click="chooseRandomOptionForRound()" style="cursor: pointer;"></i>
+                        {{appData.rounds[appData.editor.editingRound].options[appData.rounds[appData.editor.editingRound].parameters.random_option].name}}
+                    </span>
                     <span class="pt-2 pb-2 pr-4 pl-4"><i class="fa fa-clock-o pr-3"></i>24 s</span>
                 </div>
                 <div class="mt-2" style="color: hsla(0, 0%, 60%, 1)">
@@ -68,15 +71,15 @@
             <div class="pt-5 pb-5" ng-if="appData.editor.editingRound == 'easy-medium-hard'">
                 <div class="pt-4 pb-5">
                     <div class="raleway" style="font-size: large; font-weight: bold; color: hsla(0, 0%, 60%, 1);">Configurations 
-                        <i class="fa fa-refresh ml-3 click-link" ng-click="resetAppData();"></i>
+                        
                     </div>
 
-                    <div>
+                    <div class="pt-3">
                         <span style="color: hsla(0, 0%, 50%, 1);">Maximum Time (s)</span>
                         <input type="number" class="input-underlined-ignus pr-0" style="width: 100px; background: none; color: white;" placeholder="23" ng-model="appData.rounds[appData.editor.editingRound].maximumTime" step="0.01" ng-change="saveAppData();">
                     </div>
 
-                    <div>
+                    <div class="pt-3">
                         <div style="color: hsla(0, 0%, 50%, 1);">Participants</div>
                         <div style="color: hsla(0, 0%, 40%, 1); font-size: x-small;">Click to edit names.</div>
                         <div class="pt-3">
@@ -119,6 +122,94 @@
                     </div>
 
 
+                    <div class="pt-3">
+                        <div style="color: hsla(0, 0%, 50%, 1);">Round Options</div>
+                        <div style="color: hsla(0, 0%, 40%, 1); font-size: x-small;">Click to edit Options.</div>
+                        <div class="pt-3">
+                            <div class="hs-container-outer-ignus">
+                                <div class="d-none d-sm-flex hs-container-left-button-ignus" onclick="ignusTheme.hsMoveLeft('#theRoundsListEditHS', 70)" style="background: none;">
+                                    <i class="fa fa-angle-left"></i>
+                                </div>
+                                <div class="d-none d-sm-flex hs-container-right-button-ignus" onclick="ignusTheme.hsMoveRight('#theRoundsListEditHS', 70)" style="background: none;">
+                                    <i class="fa fa-angle-right"></i>
+                                </div>
+                                <div id="theRoundsListEditHS" class="hs-container-inner-ignus pl-0">
+                                    <div class="hs-container-element-ignus">
+                                        
+                                        <div class="participantEditButton mr-2 pr-3 pl-3 pt-1 pb-1 d-flex align-items-center">
+                                            <div>
+                                                <i class="fa fa-plus mr-2" style="font-size: smaller; transform: translateY(-2px);"></i>
+                                            </div>
+                                            <div>
+                                                <input type="text" class="input-underlined-ignus m-0 p-0" style="width: 100px; background: none; border: 0px solid black; color: inherit; " placeholder="Add" ng-keypress="addParticipant($event)" ng-model="appData.editor.addingParticipantName">
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="hs-container-element-ignus" ng-repeat="(roundOptionsKey, roundOptions) in appData.rounds[appData.editor.editingRound].options">
+                                        
+                                        <div class="participantEditButton mr-2 pr-3 pl-3 pt-1 pb-1 d-flex align-items-center">
+                                            <div>
+                                                <input type="text" class="input-underlined-ignus m-0 p-0" style="width: 100px; background: none; border: 0px solid black; color: inherit;" placeholder="Easy" ng-model="roundOptions.name" ng-change="saveAppData();">
+                                            </div>
+                                            <div>
+                                                <i class="fa fa-trash ml-4" style="font-size: x-small; transform: translateY(-2px);" ng-click="deleteEntry(appData.rounds[appData.editor.editingRound].options, roundOptionsKey); saveAppData();"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="pt-4">
+                        <div style="color: hsla(0, 0%, 50%, 1);">Nature of Randomness</div>
+                        <div>
+                            <!-- checkbox for 'Choose one option atleast per round' -->
+                            <div class="d-flex align-items-center pt-2">
+                                <div class="pt-2 pb-2">
+                                    <!-- <input type="checkbox" class="waveformcheckbox-ignus" ng-model="appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.choose_atleast_once"> -->
+
+                                    <i class="click-link fa fa-toggle-{{appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.choose_atleast_once ? 'on': 'off'}}" ng-click="appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.choose_atleast_once = !appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.choose_atleast_once; saveAppData();" style="cursor: pointer; transform: translateY(-2px);"></i>
+
+                                </div>
+                                
+
+                                <div class="pt-1 pb-2 pl-2 click-link" style="font-size: small; color: hsla(0, 0%, {{appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.choose_atleast_once ? '70':'40'}}%, 1);" ng-click="appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.choose_atleast_once = !appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.choose_atleast_once; saveAppData();">
+                                    Choose all options at least once
+                                </div>
+
+                            </div>
+
+                            <div class="d-flex align-items-center pt-0">
+                                <div class="pt-1 pb-2">
+                                    <!-- <input type="checkbox" class="waveformcheckbox-ignus" ng-model="appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.startTimerWhenWheelIsSpinning" ng-change="saveAppData();"> -->
+
+                                    <i class="click-link fa fa-toggle-{{appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.startTimerWhenWheelIsSpinning ? 'on': 'off'}}" ng-click="appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.startTimerWhenWheelIsSpinning = !appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.startTimerWhenWheelIsSpinning; saveAppData();" style="cursor: pointer; transform: translateY(-2px);"></i>
+
+                                </div>
+                            
+
+                                <div class="pt-0 pb-2 pl-2 click-link" style="font-size: small; color: hsla(0, 0%, {{appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.startTimerWhenWheelIsSpinning ? '70':'40'}}%, 1);" ng-click="appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.startTimerWhenWheelIsSpinning = !appData.rounds[appData.editor.editingRound].parameters.nature_of_randomness.startTimerWhenWheelIsSpinning; saveAppData();">
+                                    Start countdown when the wheel starts spinning (random choice eats up some of the countdown timer)
+                                </div>
+                            </div>
+
+                        </div>
+
+                        </div>
+                    </div>
+
+                    <div class="pt-5 click-link" ng-click="resetAppData();">
+                        <i class="fa fa-refresh mr-2 "></i>
+                        Reset everything to default
+                    </div>
+
+
                 </div>
 
 
@@ -132,7 +223,7 @@
 
 
 
-                <div class="mt-5">
+                <div class="mt-5 pt-5">
                     <div class="raleway pb-3" style="font-size: large; font-weight: bold; color: grey; ">
                         Sample Preview and Element Visibility
                     </div>

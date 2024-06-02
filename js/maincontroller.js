@@ -444,18 +444,47 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
         }
     }
 
+
+    $scope.chooseRandomOptionForRound = function() {
+        keysPossible = Object.keys($scope.appData.rounds[$scope.appData.editor.editingRound].options)
+
+        if ($scope.appData.rounds[$scope.appData.editor.editingRound].parameters['nature_of_randomness']['choose_atleast_once'] == true) {
+            keysPossible = keysPossible.filter(function(key) {
+                return $scope.appData.rounds[$scope.appData.editor.editingRound].parameters['last_1000_random_choices'][key] == undefined
+            })
+        }
+
+        if (keysPossible.length == 0) {
+            $scope.appData.rounds[$scope.appData.editor.editingRound].parameters['last_1000_random_choices'] = {}
+            keysPossible = Object.keys($scope.appData.rounds[$scope.appData.editor.editingRound].options)
+        }
+
+        randomKey = keysPossible[Math.floor(Math.random()*keysPossible.length)]
+
+        $scope.appData.rounds[$scope.appData.editor.editingRound].parameters['last_1000_random_choices'][randomKey] = Date.now()
+
+        $scope.appData.rounds[$scope.appData.editor.editingRound].parameters['random_option'] = randomKey
+        $scope.saveAppData();
+
+    }
+
     $scope.urlParameters = {}
 
     $scope.defaultAppData =  {
         'participants': {
             '0': {
                 'name': "Marques",
-                'color': 'green',
+                'color': 'hsla(0, 0%, 100%, 1)',
             },
             '1': {
                 'name': "Andrew",
-                'color': 'green',
+                'color': 'hsla(0, 0%, 100%, 1)',
+            },
+            '2': {
+                'name': "David",
+                'color': 'hsla(0, 0%, 100%, 1)',
             }
+            
         },
         'editor':{
             'addingID': 10,
@@ -508,7 +537,12 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
                 'startedAt': Date.now(),
                 'parameters': {
                     'current_participant': "Marques",
-                    'random-option': "0",
+                    'random_option': "0",
+                    'nature_of_randomness': {
+                        'choose_atleast_once': true,
+                        'startTimerWhenWheelIsSpinning': true,
+                    },
+                    'last_1000_random_choices': {}
                 },
             },
             'something-that': {
@@ -586,10 +620,11 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
 
     $scope.resetAppData = function() {
         // delete old
-        localStorage.removeItem('waveformUIData');
-
-        localStorage.setItem('waveformUIData', JSON.stringify($scope.defaultAppData))
+        // localStorage.removeItem('waveformUIData');
+        $scope.appData = {}
         $scope.appData = $scope.defaultAppData
+        localStorage.setItem('waveformUIData', JSON.stringify($scope.defaultAppData))
+        
     }
 
     $scope.loadAppData = function() {
