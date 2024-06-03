@@ -440,17 +440,19 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
 
             $scope.appData.editor.addingParticipantName = '';
 
+
             $scope.saveAppData();
         }
     }
 
     $scope.setNextParticipant = function() {
-        if ($scope.appData.round[$scope.appData.editor.editingRound].started == false) {
+        if ($scope.appData.rounds[$scope.appData.editor.editingRound].started == false) {
             keys = Object.keys($scope.appData.participants)
             currentIndex = keys.indexOf($scope.appData.rounds[$scope.appData.editor.editingRound].parameters['current_participant_key'])
             nextIndex = (currentIndex + 1) % keys.length
             $scope.appData.rounds[$scope.appData.editor.editingRound].parameters['current_participant_key'] = keys[nextIndex]
             $scope.saveAppData();
+            
             
         }
     }
@@ -463,6 +465,13 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
             $scope.appData.editor.addingOptionName = '';
 
             $scope.saveAppData();
+        }
+    }
+
+
+    $scope.chooseOptionStartSpinning = function() {
+        if ($scope.appData.rounds[$scope.appData.editor.editingRound].started) {
+            $scope.chooseRandomOptionForRound();
         }
     }
 
@@ -535,6 +544,29 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
                 'waveformLogo': {
                     'visible': true
                 },
+            },
+            'editingOptions-something-that': {
+                'randomOptionBox': {
+                    'visible': true
+                },
+                'randomOptionText': {
+                    'visible': true
+                },
+                'seconds': {
+                    'visible': true
+                },
+                'secondsUnit': {
+                    'visible': true
+                },
+                'participantName': {
+                    'visible': true
+                },
+                'participantText': {
+                    'visible': true
+                },
+                'waveformLogo': {
+                    'visible': true
+                },
             }
         },
         'rounds': {
@@ -572,29 +604,38 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
                 },
             },
             'something-that': {
-                "name": "Something that..",
-                'selected': false,
+                "name": "Something That",
+                "maximumTime": 45,
+                "wheelSpinningTime": 5,
+                'started': false,
+                'startedAt': Date.now(),
+                'selected': true,
                 'url': 'something-that',
                 'options': {
                     '0': {
-                        'name': "Easy",
+                        'name': "WAY more expensive than it should be",
                         'color': 'green',
                     },
                     '1': {
-                        'name': "Medium",
+                        'name': "has wheels",
                         'color': 'yellow',
                     },
                     '2': {
-                        'name': "Hard",
+                        'name': "you cannot get anymore",
                         'color': 'red',
                     },
                 },
                 'startedAt': Date.now(),
                 'parameters': {
-                    'current_participant': "Marques",
-                    'random-option': "0",
+                    'current_participant_key': '0',
+                    'random_option': "0",
+                    'nature_of_randomness': {
+                        'choose_atleast_once': true,
+                        'startTimerWhenWheelIsSpinning': true,
+                    },
+                    'last_1000_random_choices': {}
                 },
-            }
+            },
 
         }
     }
@@ -632,6 +673,13 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
             $interval($scope.checkToRenderAppData, 100)
             $scope.views.loadUI()
 
+            // Sound Effect by 666HeroHero from Pixabay
+            // load assets\audio\click-21156.mp3
+            $scope.audio = new Audio('assets/audio/click-21156.mp3');
+
+            $scope.clickSounds = 0;
+            $scope.spinningOptionKey = "";
+            // $scope.audio.play();
         }
         
 
@@ -657,12 +705,43 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
         $scope.appData = JSON.parse(localStorage.getItem('waveformUIData'))
     }
 
-
+    // Sound Effect by 666HeroHero from Pixabay
+    // assets\audio\click-21156.mp3
 
     $scope.checkToRenderAppData = function() {
         if ($scope.urlParameters[1] == 'ui' && $scope.urlParameters[2] !== undefined) {
+            if ($scope.appData.rounds[$scope.urlParameters[2]].started) {
+                greaterThan = $scope.appData.rounds[$scope.urlParameters[2]].maximumTime - $scope.appData.rounds[$scope.urlParameters[2]].wheelSpinningTime
+
+                currentCountdown = $scope.appData.rounds[$scope.urlParameters[2]].maximumTime - (($scope.currentTime - $scope.appData.rounds[$scope.urlParameters[2]].startedTime)/1000)
+
+                if (currentCountdown > greaterThan) {
+                    randomAnimationTimeParametric = $scope.linearValue(currentCountdown, [greaterThan, $scope.appData.rounds[$scope.urlParameters[2]].maximumTime], [0, 1])
+
+                    randomAnimationTimeParametric = 1 - randomAnimationTimeParametric*randomAnimationTimeParametric*randomAnimationTimeParametric
+
+
+                    if (randomAnimationTimeParametric - $scope.clickSounds/20 > 0) {
+                        $scope.audio.play();
+                        $scope.clickSounds += 1;
+
+                        randOptions = Object.keys($scope.appData.rounds[$scope.urlParameters[2]].options)
+                        $scope.spinningOptionKey = randOptions[($scope.clickSounds % randOptions.length)]
+                    }
+
+                    if ($scope.clickSounds == 20 && $scope.spinningOptionKey != "") {
+                        $scope.spinningOptionKey = ""
+                    }
+                    // console.log($scope.clickSounds, randomAnimationTimeParametric)
+                }
+            }
+            else {
+                $scope.clickSounds = 0;
+            }
             $scope.loadAppData();
-            console.log($scope.appData.editor.editingOptions.randomOptionText.visible)
+            // console.log($scope.appData.editor.editingOptions.randomOptionText.visible)
+
+
         }
     }
 

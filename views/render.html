@@ -3,28 +3,33 @@
         <div class="pl-5" ng-if="urlParameters[2] == 'easy-medium-hard'">
 
             <div class="raleway" style="font-size: 100px; font-weight: bold; color: hsla(0, 40%, 50%, 1)" ng-show="appData.editor.editingOptions.randomOptionBox.visible">
-                {{appData.rounds[urlParameters[2]].options[appData.rounds[urlParameters[2]].parameters.random_option].name}}
+                <div ng-show="spinningOptionKey == ''">
+                    {{appData.rounds[urlParameters[2]].options[appData.rounds[urlParameters[2]].parameters.random_option].name}}
+                </div>
+                <div ng-show="spinningOptionKey != ''">
+                    {{appData.rounds[urlParameters[2]].options[spinningOptionKey].name}}
+                </div>
             </div>
             <div class="raleway" style="font-weight: bold; transform: translateY(-20px)" ng-show="appData.editor.editingOptions.randomOptionText.visible">RANDOM OPTION</div>
 
             
             <div class="raleway pt-5" style="font-size: 100px; font-weight: bold; color: hsla(0, 0%, 100%, 1);" ng-show="appData.editor.editingOptions.seconds.visible">
 
-                <div ng-show="appData.round[urlParameters[2]].started && appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.round[urlParameters[2]].startedTime)/1000) > 0">
+                <div ng-show="appData.rounds[urlParameters[2]].started && appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.rounds[urlParameters[2]].startedTime)/1000) > 0">
                     <span>
-                        {{appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.round[urlParameters[2]].startedTime)/1000) | number:1}}
+                        {{appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.rounds[urlParameters[2]].startedTime)/1000) | number:1}}
                     </span>
                     <span style="color: hsla(0, 0%, 80%, 1);">
-                        <!-- .{{((appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.round[urlParameters[2]].startedTime)/1000)) * 10) % 10 | number:0}} -->
+                        <!-- .{{((appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.rounds[urlParameters[2]].startedTime)/1000)) * 10) % 10 | number:0}} -->
                         <span class="pl-3" style="color: hsla(0, 0%, 60%, 1); font-size: 100px;" ng-show="appData.editor.editingOptions.secondsUnit.visible">s</span>
                     </span> 
                 </div>
 
-                <div ng-hide="appData.round[urlParameters[2]].started && appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.round[urlParameters[2]].startedTime)/1000) > 0">
-                    <span ng-hide="appData.round[urlParameters[2]].started">
+                <div ng-hide="appData.rounds[urlParameters[2]].started && appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.rounds[urlParameters[2]].startedTime)/1000) > 0">
+                    <span ng-hide="appData.rounds[urlParameters[2]].started">
                         {{appData.rounds[urlParameters[2]].maximumTime}}
                     </span>
-                    <span ng-show="appData.round[urlParameters[2]].started">
+                    <span ng-show="appData.rounds[urlParameters[2]].started">
                         0.0
                     </span>
                     <span style="color: hsla(0, 0%, 80%, 1);"><span class="pl-3" style="color: hsla(0, 0%, 60%, 1); font-size: 100px;" ng-show="appData.editor.editingOptions.secondsUnit.visible">s</span></span> 
@@ -41,6 +46,64 @@
                 <div style="width: 60%;" class="pt-3">
                     <div class="raleway" style="font-size: 30px; font-weight: bold; color: hsla(0, 0%, 90%, 1)" ng-show="appData.editor.editingOptions.participantName.visible">{{appData.participants[appData.rounds[urlParameters[2]].parameters['current_participant_key']].name}}</div>
                     <div class="raleway" style="font-weight: bold;" ng-show="appData.editor.editingOptions.participantText.visible">Participant</div>
+                </div>
+            
+            </div>
+            <div class="position-relative pt-5 pr-5">
+                <div class="float-right">
+                    <!-- play button from font awesome with rounded corners -->
+                    <!-- <div class="d-flex justify-content-center align-items-center pause-play-ui-button" ><i class="fa fa-play"></i></div> -->
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="pl-5 pt-5" ng-if="urlParameters[2] == 'something-that'">
+            <div class="raleway" style="font-weight: bold; transform: translateY(-20px); font-size: 60px; color: hsla(0, 0%, 60%, 1);" ng-show="appData.editor['editingOptions-something-that'].randomOptionText.visible">Something that</div>
+            <div class="pr-5 mr-5 pr-md-5 mr-md-5" style="font-size: 80px; font-weight: bold; color: hsla(0, 40%, 50%, 1); font-family: Nunito; transform: translateY(-30px);" ng-show="appData.editor['editingOptions-something-that'].randomOptionBox.visible">
+                <div ng-show="spinningOptionKey == ''">
+                    {{appData.rounds[urlParameters[2]].options[appData.rounds[urlParameters[2]].parameters.random_option].name}}
+                </div>
+                <div ng-show="spinningOptionKey != ''">
+                    {{appData.rounds[urlParameters[2]].options[spinningOptionKey].name}}
+                </div>
+            </div>
+            
+
+            
+            <div class="raleway pt-5" style="font-size: 100px; font-weight: bold; color: hsla(0, 0%, 100%, 1);" ng-show="appData.editor['editingOptions-something-that'].seconds.visible">
+
+                <div ng-show="appData.rounds[urlParameters[2]].started && appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.rounds[urlParameters[2]].startedTime)/1000) > 0">
+                    <span>
+                        {{appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.rounds[urlParameters[2]].startedTime)/1000) | number:1}}
+                    </span>
+                    <span style="color: hsla(0, 0%, 80%, 1);">
+                        <!-- .{{((appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.rounds[urlParameters[2]].startedTime)/1000)) * 10) % 10 | number:0}} -->
+                        <span class="pl-3" style="color: hsla(0, 0%, 60%, 1); font-size: 100px;" ng-show="appData.editor['editingOptions-something-that'].secondsUnit.visible">s</span>
+                    </span> 
+                </div>
+
+                <div ng-hide="appData.rounds[urlParameters[2]].started && appData.rounds[urlParameters[2]].maximumTime - ((currentTime - appData.rounds[urlParameters[2]].startedTime)/1000) > 0">
+                    <span ng-hide="appData.rounds[urlParameters[2]].started">
+                        {{appData.rounds[urlParameters[2]].maximumTime}}
+                    </span>
+                    <span ng-show="appData.rounds[urlParameters[2]].started">
+                        0.0
+                    </span>
+                    <span style="color: hsla(0, 0%, 80%, 1);"><span class="pl-3" style="color: hsla(0, 0%, 60%, 1); font-size: 100px;" ng-show="appData.editor['editingOptions-something-that'].secondsUnit.visible">s</span></span> 
+                </div>
+
+                
+                
+                
+
+            </div>
+            <div class="d-inline-block pr-5 pt-5 pb-0" >
+                <div class="pr-3 pr-sm-5 pt-3 pb-0" style="max-width: 200px; max-height: 200px; width: 30%; min-width: 200px; " ng-include="'/assets/images/logo.html'" ng-show="appData.editor['editingOptions-something-that'].waveformLogo.visible">
+                </div>
+                <div style="width: 60%;" class="pt-3">
+                    <div class="raleway" style="font-size: 30px; font-weight: bold; color: hsla(0, 0%, 90%, 1)" ng-show="appData.editor['editingOptions-something-that'].participantName.visible">{{appData.participants[appData.rounds[urlParameters[2]].parameters['current_participant_key']].name}}</div>
+                    <div class="raleway" style="font-weight: bold;" ng-show="appData.editor['editingOptions-something-that'].participantText.visible">Participant</div>
                 </div>
             
             </div>
