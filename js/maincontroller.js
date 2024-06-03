@@ -609,7 +609,7 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
                 "wheelSpinningTime": 5,
                 'started': false,
                 'startedAt': Date.now(),
-                'selected': true,
+                'selected': false,
                 'url': 'something-that',
                 'options': {
                     '0': {
