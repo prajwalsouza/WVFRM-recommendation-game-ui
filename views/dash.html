@@ -216,6 +216,8 @@
                         </div>
                     </div>
 
+                    
+
                     <div class="pt-5 click-link" ng-click="resetAppData(); visit('/');">
                         <i class="fa fa-refresh mr-2 "></i>
                         Reset everything to default
@@ -284,7 +286,7 @@
             </div>
 
 
-            <div class="pt-5 pb-5" ng-if="appData.editor.editingRound == 'something-that'">
+            <div class="pt-5 pb-2" ng-if="appData.editor.editingRound == 'something-that'">
                 <div class="pt-4 pb-5 pl-0 pr-0">
                     <div class="raleway" style="font-size: large; font-weight: bold; color: hsla(0, 0%, 60%, 1);">Configurations 
                         
@@ -495,6 +497,28 @@
                 
             </div>
 
+
+            <div class="pt-2 pb-5">
+                <div class="raleway" style="font-size: large; font-weight: bold; color: hsla(0, 0%, 60%, 1);">MIDI Input
+                <div>
+                <div class="pt-2" style="font-family: Nunito; font-weight: normal; font-size: small;">If a MIDI device is available, the following key will trigger play and stop buttons at the top.<br/><span ng-show="midiNote != '' && midiNote != undefined"> Last MIDI note {{midiNote}} was pressed, and {{midiNoteCommand}} indicated keydown/up command.</span></div>
+                <div class="pt-2 pb-5">
+                    <!-- <select class="input-underlined-ignus pr-0" style="width: 200px; background: none; color: white;">
+                        <option ng-repeat="midiInput in appData.midiInputs" value="{{midiInput.id}}">{{midiInput.name}}</option>
+                    </select> -->
+
+                    <input type="number" class="input-underlined-ignus pr-0" style="width: 100px; background: none; font-family: Nunito; font-size: small; color: white;" ng-model="appData.midiKey">
+                    <br/>
+
+                    <div style="font-family: Nunito; font-size: small; font-weight: normal;">
+                        <input type="number" class="input-underlined-ignus pr-0" style="width: 100px; background: none; color: white; " ng-model="appData.midiKeyDownCode"> is the code here for detecting key press (key down). 
+                    </div>
+                   
+
+                    
+
+                </div>
+            </div>
             
         </div>
     </div>

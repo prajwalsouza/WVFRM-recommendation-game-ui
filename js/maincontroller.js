@@ -502,6 +502,8 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
     $scope.urlParameters = {}
 
     $scope.defaultAppData =  {
+        'midiKey': 81,
+        'midiKeyDownCode': 158,
         'participants': {
             '0': {
                 'name': "Marques",
@@ -640,6 +642,57 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
         }
     }
 
+    $scope.midiSetup = function() {
+        if (navigator.requestMIDIAccess) {
+            navigator.requestMIDIAccess()
+                .then(onMIDISuccess, onMIDIFailure);
+        } else {
+            console.error("Web MIDI API is not supported in this browser.");
+        }
+
+        function onMIDISuccess(midiAccess) {
+            console.log("MIDI Access Object", midiAccess);
+            $scope.midiInputs = midiAccess.inputs;
+            midiAccess.inputs.forEach(input => {
+                input.addEventListener('midimessage', handleMIDIMessage);
+            });
+        }
+
+        function onMIDIFailure() {
+            console.error("Failed to access MIDI devices.");
+        }
+
+        function handleMIDIMessage(event) {
+            const data = event.data;
+            const command = data[0];
+            const note = data[1];
+            const velocity = data[2];
+
+            const message = `Command: ${command}, Note: ${note}, Velocity: ${velocity}`;
+
+            console.log(message);
+
+            $scope.midiNote = note;
+            $scope.midiNoteCommand = command;
+
+            if ($scope.urlParameters[1] != 'ui') {
+                if (note == $scope.appData.midiKey && command == $scope.appData.midiKeyDownCode) {
+                    $scope.appData.rounds[$scope.appData.editor.editingRound].started = !$scope.appData.rounds[$scope.appData.editor.editingRound].started; 
+                    
+                    $scope.findCurrentTime(); 
+                    
+                    $scope.appData.rounds[$scope.appData.editor.editingRound].startedTime = $scope.currentTime; 
+                    $scope.setNextParticipant();
+                    $scope.chooseOptionStartSpinning();
+                    $scope.saveAppData(); 
+
+                    
+                }
+            }
+            
+        }
+    }
+
     $scope.view = function() {
         $scope.urlParameters[1] = $routeParams.param1
         $scope.urlParameters[2] = $routeParams.param2
@@ -667,6 +720,8 @@ app.controller('theMainController', ['$scope','$routeParams', '$timeout', '$inte
         if ($routeParams.param1 === undefined && $routeParams.param2 === undefined) {
             $scope.views.loadDashboard()
             $scope.appData.editor.addingParticipantName = '';
+
+            $scope.midiSetup();
         }
 
         if ($routeParams.param1 === 'ui' && $routeParams.param2 !== undefined) {
