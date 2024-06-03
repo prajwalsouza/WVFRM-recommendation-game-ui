@@ -450,7 +450,11 @@
                             Just a sample preview, the actual render is at <span style="font-family: Nunito;" class="click-link" ng-click="visitWithTarget('/#!/ui/' + appData.editor.editingRound, '_blank')">{{baseURL}}#!/ui/{{appData.editor.editingRound}}</span>
                         </div>
                     </div>
-                    <div id="sample-preview" class="pb-5 mb-5">
+                    <div id="sample-preview" class="pb-5 mb-5 pt-4">
+                        <div class="raleway" style="font-weight: bold; transform: translateY(-20px); font-size: 60px; color: hsla(0, 0%, 60%, 1);">Something that
+                            <span class="fa fa-{{appData.editor['editingOptions-something-that'].randomOptionText.visible ? 'eye':'eye-slash'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor['editingOptions-something-that'].randomOptionText.visible = !appData.editor['editingOptions-something-that'].randomOptionText.visible; saveAppData();"></span>
+                        </div>
+
                         <div class="raleway" style="font-size: 100px; font-weight: bold; color: hsla(0, 40%, 50%, 1); {{appData.editor['editingOptions-something-that'].randomOptionBox.visible ? '':'filter: saturate(0) brightness(3);'}}">
 
                             <span>
@@ -460,9 +464,7 @@
                             <span class="fa fa-{{appData.editor['editingOptions-something-that'].randomOptionBox.visible ? 'eye':'eye-slash'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor['editingOptions-something-that'].randomOptionBox.visible = !appData.editor['editingOptions-something-that'].randomOptionBox.visible; saveAppData();"></span>
                         </div>
 
-                        <div class="raleway" style="font-weight: bold; transform: translateY(-20px); font-size: 60px; color: hsla(0, 0%, 60%, 1);">Something that
-                            <span class="fa fa-{{appData.editor['editingOptions-something-that'].randomOptionText.visible ? 'eye':'eye-slash'}} position-absolute edit-option ml-3 mr-3" ng-click="appData.editor['editingOptions-something-that'].randomOptionText.visible = !appData.editor['editingOptions-something-that'].randomOptionText.visible; saveAppData();"></span>
-                        </div>
+                        
         
 
         
